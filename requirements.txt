@@ -1,0 +1,5 @@
+groq
+pyyaml
+python-dotenv
+duckduckgo-search
+langchain-community
