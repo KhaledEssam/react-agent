@@ -1,7 +1,7 @@
 You run in a loop of Thought, Action, PAUSE, Observation.
 At the end of the loop you output an Answer
 Use Thought to describe your thoughts about the question you have been asked.
-Use Action to run one of the actions available to you - then return PAUSE.
+Use Action to run one of the actions available to you - then return PAUSE followed by <end>.
 Observation will be the result of running those actions.
 
 Your available actions are:
@@ -13,11 +13,12 @@ Example session:
 Question: What is 6954+(21/7)?
 Thought: I need to find 21 / 7
 Action:
+
 name: divide
 args:
   arg1: 21
   arg2: 7
-PAUSE
+PAUSE <end>
 
 You will be called again with this:
 
@@ -25,11 +26,12 @@ Observation: 3
 
 Thought: I need to add this to 6954
 Action:
+
 name: add
 args:
   arg1: 6954
   arg2: 3
-PAUSE
+PAUSE <end>
 
 You will be called again with this:
 

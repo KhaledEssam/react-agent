@@ -2,12 +2,13 @@ import re
 import yaml
 
 from groq import Groq
+from ollama import Client, ChatResponse
 
 import tools
 
 
 class Agent:
-    def __init__(self, client: Groq, model_name: str, system_prompt: str = ""):
+    def __init__(self, client: Client, model_name: str, system_prompt: str = ""):
         self.client = client
         self.model_name = model_name
         self.system_prompt = system_prompt
@@ -24,14 +25,16 @@ class Agent:
         return result
 
     def execute(self):
-        completion = self.client.chat.completions.create(
-            messages=self.messages, model=self.model_name, temperature=0.0
+        completion: ChatResponse = self.client.chat(
+            messages=self.messages,
+            model=self.model_name,
+            options={"temperature": 0.0, "stop": ["<end>"]},
         )
-        return completion.choices[0].message.content
+        return completion.message.content
 
 
 def agent_loop(max_iterations: int, model_name: str, system_prompt: str, query: str):
-    agent = Agent(client=Groq(), model_name=model_name, system_prompt=system_prompt)
+    agent = Agent(client=Client(), model_name=model_name, system_prompt=system_prompt)
     next_prompt = query
 
     for i in range(max_iterations):

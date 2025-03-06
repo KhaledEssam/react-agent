@@ -1,4 +1,5 @@
 groq
+ollama
 pyyaml
 python-dotenv
 duckduckgo-search

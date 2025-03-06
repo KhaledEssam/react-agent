@@ -12,8 +12,8 @@ def main():
     agent_loop(
         max_iterations=10,
         system_prompt=system_prompt,
-        model_name="qwen-2.5-32b",
-        query="what's 2 * the age of Jeff Bezos?",
+        model_name="llama3.1:8b",
+        query="I bought an nvidia stock at $80. will I make a proffit or not if I sell it now?",
     )
 
 
