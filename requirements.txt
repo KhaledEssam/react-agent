@@ -1,6 +1,7 @@
 groq
 ollama
 pyyaml
+streamlit
 python-dotenv
 duckduckgo-search
 langchain-community

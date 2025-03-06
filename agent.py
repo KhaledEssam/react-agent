@@ -48,10 +48,12 @@ def agent_loop(
     agent = Agent(provider, model_name, system_prompt)
     next_prompt = query
 
+    output = []
+
     for i in range(max_iterations):
-        print(f"Iteration {i}")
+        output.append(f"Iteration {i}")
         result = agent(next_prompt)
-        print(result)
+        output.append(result)
 
         if "Answer" in result:
             break
@@ -61,7 +63,7 @@ def agent_loop(
         if not action:
             continue
 
-        regex_match = action.group(1)
+        regex_match = action.group(1).strip()
         tool_call = yaml.load(regex_match, Loader=yaml.FullLoader)
         chosen_tool = tool_call["name"]
 
@@ -86,4 +88,5 @@ def agent_loop(
         else:
             observation = "Invalid tool invokation"
         next_prompt = f"Observation: {observation}"
-        print(f"Next prompt: {next_prompt}")
+        output.append(f"Next prompt: {next_prompt}")
+    return "\n".join(output)
