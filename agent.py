@@ -1,18 +1,27 @@
 import re
 import yaml
 
-from groq import Groq
-from ollama import Client, ChatResponse
-
+import provider
 import tools
 
 
 class Agent:
-    def __init__(self, client: Client, model_name: str, system_prompt: str = ""):
-        self.client = client
+    def __init__(
+        self,
+        provider_type: provider.ProviderType,
+        model_name: str,
+        system_prompt: str = "",
+    ):
+        self.provider_type = provider_type
         self.model_name = model_name
         self.system_prompt = system_prompt
         self.messages = []
+
+        match self.provider_type:
+            case provider.ProviderType.OLLAMA:
+                self.client = provider.OllamaProvider(model_name)
+            case provider.ProviderType.GROQ:
+                self.client = provider.GroqProvider(model_name)
 
         if self.system_prompt:
             self.messages.append({"role": "system", "content": self.system_prompt})
@@ -25,16 +34,18 @@ class Agent:
         return result
 
     def execute(self):
-        completion: ChatResponse = self.client.chat(
+        completion: str = self.client.chat(
             messages=self.messages,
-            model=self.model_name,
-            options={"temperature": 0.0, "stop": ["<end>"]},
+            temperature=0,
+            stop=["<end>"],
         )
-        return completion.message.content
+        return completion
 
 
-def agent_loop(max_iterations: int, model_name: str, system_prompt: str, query: str):
-    agent = Agent(client=Client(), model_name=model_name, system_prompt=system_prompt)
+def agent_loop(
+    max_iterations: int, provider: str, model_name: str, system_prompt: str, query: str
+):
+    agent = Agent(provider, model_name, system_prompt)
     next_prompt = query
 
     for i in range(max_iterations):

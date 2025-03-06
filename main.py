@@ -1,6 +1,7 @@
 from agent import agent_loop
 from utils import read
 from dotenv import load_dotenv
+import provider
 
 
 def main():
@@ -12,7 +13,8 @@ def main():
     agent_loop(
         max_iterations=10,
         system_prompt=system_prompt,
-        model_name="llama3.1:8b",
+        provider=provider.ProviderType.GROQ,
+        model_name="qwen-qwq-32b",
         query="I bought an nvidia stock at $80. will I make a proffit or not if I sell it now?",
     )
 
