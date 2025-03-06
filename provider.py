@@ -36,6 +36,7 @@ class GroqProvider(Provider):
             model=self.model_name,
             temperature=temperature,
             stop=stop,
+            service_tier="auto",
         )
         return completion.choices[0].message.content
 
