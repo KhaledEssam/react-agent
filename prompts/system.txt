@@ -13,7 +13,6 @@ Example session:
 Question: What is 6954+(21/7)?
 Thought: I need to find 21 / 7
 Action:
-
 name: divide
 args:
   arg1: 21
@@ -26,7 +25,6 @@ Observation: 3
 
 Thought: I need to add this to 6954
 Action:
-
 name: add
 args:
   arg1: 6954
@@ -42,3 +40,5 @@ If you have the answer, output it as the Answer.
 Answer: 6954+(21/7) is 6957.
 
 Now it's your turn:
+
+Question: 

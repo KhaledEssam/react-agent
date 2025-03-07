@@ -64,8 +64,15 @@ def agent_loop(
             continue
 
         regex_match = action.group(1).strip()
-        tool_call = yaml.load(regex_match, Loader=yaml.FullLoader)
-        chosen_tool = tool_call["name"]
+
+        try:
+            tool_call = yaml.load(regex_match, Loader=yaml.FullLoader)
+            chosen_tool = tool_call["name"]
+        except yaml.YAMLError as exc:
+            observation = f"Error parsing tool call: {exc}"
+            next_prompt = f"Observation: {observation}"
+            output.append(f"Next prompt: {next_prompt}")
+            continue
 
         valid = True
 
